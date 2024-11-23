@@ -98,7 +98,7 @@ class Piece:
     
     
     def movePiece(self, x, y):
-
+        
         previousGridPos = get_grid_by_mouse_position((self.x, self.y))
         newGridPos = get_grid_by_mouse_position((x, y))
         
@@ -115,7 +115,7 @@ class Piece:
         self.piece_rect = self.image.get_rect(center=(self.x, self.y))
         
         drawBoard()
-
+        drawPositions()
 
 # ---------------------------------------------------
 
@@ -206,8 +206,7 @@ def drawBoard():
 
     # ---------------------------------------------------
 
-    
-
+def drawPositions():
     current_fen = stockfish.get_fen_position()
 
     print(current_fen)
@@ -227,6 +226,7 @@ def drawBoard():
         print("AI Best move: " + str(best_move))
         stockfish.make_moves_from_current_position([best_move])
         drawBoard()
+        drawPositions()
         return
 
     piecesOnBoard.clear()
@@ -275,6 +275,7 @@ def drawBoard():
         if piece.should_render:
             scrn.blit(piece.image, piece.piece_rect)
 
+
 # PLACE PIECES ON BOARD ---------------------------------------------------
 
 # Black pieces
@@ -312,6 +313,7 @@ w_king = pygame.image.load("resources\\pieces\\w_king_png_shadow_256px.png").con
 
 # DRAW BOARD ---------------------------------------------------
 drawBoard()
+drawPositions()
 # ---------------------------------------------------
 
 status = True
@@ -345,6 +347,11 @@ while (status):
             if(holding_piece != None):
                 holding_piece.movePiece(get_centered_position(interacted_grid[0], interacted_grid[1])[0], get_centered_position(interacted_grid[0], interacted_grid[1])[1])
             
+    
+    if holding_mouse and holding_piece != None:
+        # draw circle on starting position
+        pygame.draw.circle(scrn, (255, 0, 0), (holding_piece.x, holding_piece.y), 35, 5)
+
     pygame.display.update()
 
 
