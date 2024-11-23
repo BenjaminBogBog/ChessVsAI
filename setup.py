@@ -6,6 +6,8 @@ executables = [cx_Freeze.Executable('Main.py', base = "Win32GUI")]
 cx_Freeze.setup(
     name = "Chess vs AI",
     options = {"build_exe" : 
-        {"packages" : ["pygame"]}},
+        {"packages" : ["pygame"],
+         "include_files" : ["resources/", "stockfish/"]
+        }},
     executables = executables
 )
