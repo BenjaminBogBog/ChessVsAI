@@ -1,13 +1,17 @@
-import cx_Freeze
+from cx_Freeze import setup, Executable
 
-# base = "Win32GUI" allows your application to open without a console window
-executables = [cx_Freeze.Executable('Main.py', base = "Win32GUI")]
+# Dependencies are automatically detected, but it might need
+# fine tuning.
+build_options = {"packages": ["pygame", "stockfish"], "include_files": ['resources/', 'stockfish/']}
 
-cx_Freeze.setup(
-    name = "Chess vs AI",
-    options = {"build_exe" : 
-        {"packages" : ["pygame"],
-         "include_files" : ["resources/", "stockfish/"]
-        }},
-    executables = executables
-)
+base = 'console'
+
+executables = [
+    Executable('Main.py', base=base, target_name = 'ChessAI')
+]
+
+setup(name='ChessVSAI',
+      version = '0.1.0',
+      description = 'A chess app to play against stockfish AI',
+      options = {'build_exe': build_options},
+      executables = executables)
